@@ -71,3 +71,5 @@ Testeé y Validé los archivos main.py y cli.py donde se incluía el funcionamie
 
 Incluí la carpeta __pycache__ en el archivo .gitignore para agilizar la carga del programa.
 
+Revisé la documentación del archivo README.md
+
