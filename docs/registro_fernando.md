@@ -1,6 +1,7 @@
-Historial de trabajo realizado
-1. Descripción inicial del proyecto
-Pedí ayuda para definir TaskFlow CLI, un gestor de tareas en consola escrito en Python 3.12+. El proyecto debía crecer desde una carpeta vacía hasta convertirse en una aplicación completa con:
+📝 Historial de trabajo realizado
+
+📌 Descripción inicial del proyecto
+Solicité ayuda para definir TaskFlow CLI, un gestor de tareas en consola desarrollado en Python 3.12+. El objetivo era construir una aplicación completa partiendo de una carpeta vacía, incorporando progresivamente:
 
 Modelos de datos
 
@@ -12,10 +13,10 @@ Interfaz de consola con colores
 
 Tests automatizados
 
-También quería una historia de commits que guiara la evolución del proyecto.
+También necesitaba una historia de commits que guiara la evolución del proyecto paso a paso.
 
-2. Diseño del esquema del proyecto
-Solicité un esquema de carpetas y módulos. La IA proporcionó una estructura clara con:
+📁 Diseño del esquema del proyecto
+Pedí un esquema de carpetas y módulos. La IA propuso inicialmente una estructura con:
 
 models.py
 
@@ -31,12 +32,12 @@ Archivo tasks.json
 
 requirements.txt
 
-Deseché este esquema y proporcioné el esquema incluido en el ejercicio
+Finalmente, descarté ese esquema y proporcioné el que debía usarse según el ejercicio.
 
-3. Generación del primer commit del proyecto
-Le pedí a la IA que preparara la versión inicial del repositorio, incluyendo:
+🚀 Generación del primer commit del proyecto
+Solicité a la IA que preparara la versión inicial del repositorio, que debía incluir:
 
-Estructura mínima
+Estructura mínima del proyecto
 
 CLI básica con un comando hello
 
@@ -44,16 +45,16 @@ Archivo tasks.json vacío
 
 Tests iniciales con pytest
 
-Dependencias en requirements.txt
+Dependencias definidas en requirements.txt
 
-La IA entreguó todos los archivos listos para usar.
+La IA entregó todos los archivos listos para ser utilizados.
 
-4. Creación del README
-Finalmente, le pedí:
+📄 Creación del README
+Posteriormente pedí:
 
 “Hazme un readme con una pequeña descripción del proyecto, cómo instalar las dependencias y cómo ejecutarlo.”
 
-Generó un README.md completo con:
+La IA generó un README.md completo que incluía:
 
 Descripción breve del proyecto
 
@@ -65,11 +66,13 @@ Ejecución de tests
 
 Estructura del proyecto
 
-Revisé los archivos .gitignore y __init__.py y los incluí en la estructura.
+🔧 Ajustes y validaciones adicionales
+Además, realicé varias tareas manuales para completar y mejorar el proyecto:
 
-Testeé y Validé los archivos main.py y cli.py donde se incluía el funcionamiento del programa.
+Revisé los archivos .gitignore y __init__.py y los incorporé correctamente a la estructura.
 
-Incluí la carpeta __pycache__ en el archivo .gitignore para agilizar la carga del programa.
+Probé y validé los archivos main.py y cli.py para asegurar el funcionamiento del programa.
 
-Revisé la documentación del archivo README.md
+Añadí la carpeta __pycache__/ al .gitignore para mejorar el rendimiento y evitar archivos innecesarios en el repositorio.
 
+Revisé y ajusté la documentación del archivo README.md.
