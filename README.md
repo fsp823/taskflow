@@ -34,7 +34,7 @@ Ejemplo:
 
 bash
 python -m taskflow.cli hello TaskFlow
-Salida esperada:
+Salida esperada:htyhtryu
 
 Código
 Hola TaskFlow 👋
