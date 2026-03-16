@@ -27,7 +27,7 @@ pytest — para ejecutar los tests
 
 ▶️ Ejecución de la aplicación
 Puedes ejecutar la CLI directamente con Python:
-
+uytutyuy
 bash
 python -m taskflow.cli hello
 Ejemplo:
