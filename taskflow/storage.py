@@ -23,7 +23,7 @@ def load_tasks(path: Path = DEFAULT_PATH) -> list[Task]:
     if not path.exists():
         return []
 
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8-sig") as f:
         data = json.load(f)
 
     return [Task.from_dict(item) for item in data]
