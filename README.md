@@ -6,12 +6,13 @@ TaskFlow CLI es un gestor de tareas en consola escrito en Python 3.12+. Su objet
 🚀 Instalación de dependencias
 Asegúrate de tener Python 3.12 o superior instalado.
 
-Clona el repositorio:
+1. Clona el repositorio:
 
 bash
 git clone https://github.com/tuusuario/taskflow.git
 cd taskflow
-Instala las dependencias:
+
+2. Instala las dependencias:
 
 bash
 pip install -r requirements.txt
@@ -22,6 +23,7 @@ Typer — para la interfaz de línea de comandos
 Rich — para salida con colores y tablas
 
 pytest — para ejecutar los tests
+
 
 ▶️ Ejecución de la aplicación
 Puedes ejecutar la CLI directamente con Python:
