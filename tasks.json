@@ -1,9 +1,37 @@
 [
   {
-    "id": "47f5c707-86e3-4873-94f2-b78ef03be0ee",
-    "titulo": "Tarea En grupo",
+    "id": "c2ea4b18-3068-4b2f-ac01-2ec03f2d49bc",
+    "titulo": "Tarea urgente",
     "prioridad": 5,
     "estado": "pendiente",
-    "fecha_creacion": "2026-03-16T12:23:32.884281"
+    "fecha_creacion": "2026-03-16T12:28:15.123347"
+  },
+  {
+    "id": "14d12fd9-b24d-4b4d-9bab-f0a9b3899466",
+    "titulo": "Tarea 2",
+    "prioridad": 3,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-16T12:28:25.011176"
+  },
+  {
+    "id": "17d82b2e-4ede-4eca-8a10-766341f0d890",
+    "titulo": "Tarea 3",
+    "prioridad": 5,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-16T12:28:25.239795"
+  },
+  {
+    "id": "d46e784f-e6f0-44ba-a5ac-e26ad98bb7b7",
+    "titulo": "angel acaba de modificar el main",
+    "prioridad": 5,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-16T12:45:14.772701"
+  },
+  {
+    "id": "c5aca790-16f4-47e6-a765-0feb2770857d",
+    "titulo": "andres es ladilloso",
+    "prioridad": 2,
+    "estado": "completada",
+    "fecha_creacion": "2026-03-16T12:49:23.459152"
   }
 ]
