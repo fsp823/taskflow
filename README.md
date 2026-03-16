@@ -66,6 +66,11 @@ pip install -r requirements.txt
 
 ---
 
+> 💡 También puedes instalarlas manualmente:
+```bash
+pip install typer>=0.9 rich>=13 pytest>=8
+```
+
 ## ▶️ Uso
 
 Ejecuta la CLI directamente con Python:
