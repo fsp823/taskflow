@@ -9,13 +9,13 @@ DEFAULT_PATH = Path("tasks.json")
 def load_tasks(path: Path = DEFAULT_PATH) -> list[Task]:
     """Carga las tareas desde un archivo JSON.
 
-    Si el archivo no existe, retorna una lista vacía sin lanzar error.
+    Si el archivo no existe o está vacío, retorna una lista vacía sin lanzar error.
 
     Args:
         path: ruta al archivo JSON. Por defecto 'tasks.json'.
 
     Returns:
-        Lista de Task. Vacía si el archivo no existe.
+        Lista de Task. Vacía si el archivo no existe o está vacío.
 
     Raises:
         json.JSONDecodeError: si el archivo existe pero tiene JSON malformado.
@@ -23,10 +23,11 @@ def load_tasks(path: Path = DEFAULT_PATH) -> list[Task]:
     if not path.exists():
         return []
 
-    with open(path, "r", encoding="utf-8-sig") as f:
-        data = json.load(f)
+    content = path.read_text(encoding="utf-8-sig").strip()
+    if not content:
+        return []
 
-    return [Task.from_dict(item) for item in data]
+    return [Task.from_dict(item) for item in json.loads(content)]
 
 
 def save_tasks(tasks: list[Task], path: Path = DEFAULT_PATH) -> None:
