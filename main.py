@@ -60,8 +60,9 @@ def menu_principal():
         "2": "📋  Todas las tareas",
         "3": "⏳  Tareas por hacer",
         "4": "✅  Tareas completadas",
-        "5": "📊  Estadísticas",
-        "6": "🗑️   Eliminar tarea",
+        "5": "☑️   Marcar tarea como hecha",
+        "6": "📊  Estadísticas",
+        "7": "🗑️   Eliminar tarea",
         "0": "🚪  Salir",
     }
     console.print()
@@ -77,7 +78,7 @@ def agregar_tarea():
     console.print(Panel("➕  [bold]Nueva tarea[/]", style="cyan", box=box.ROUNDED))
     console.print()
 
-    titulo = Prompt.ask("  [bold]Título[/]")
+    titulo    = Prompt.ask("  [bold]Título[/]")
     prioridad = IntPrompt.ask("  [bold]Prioridad[/] [dim](1=baja · 5=crítica)[/]", default=3)
 
     try:
@@ -117,6 +118,39 @@ def mostrar_tareas(filtro: str | None = None):
     Prompt.ask("  [dim]Pulsa Enter para continuar[/]", default="")
 
 
+def completar_tarea():
+    clear()
+    header()
+    console.print(Panel("☑️   [bold]Marcar tarea como completada[/]", style="green", box=box.ROUNDED))
+    console.print()
+
+    tasks      = load_tasks(TASKS_PATH)
+    pendientes = filter_by_status(tasks, "pendiente")
+
+    if not pendientes:
+        console.print("  [dim]No hay tareas pendientes.[/]\n")
+        Prompt.ask("  [dim]Pulsa Enter para continuar[/]", default="")
+        return
+
+    console.print(build_table(pendientes))
+    console.print()
+
+    task_id = Prompt.ask("  [bold]ID de la tarea completada[/] [dim](primeros caracteres)[/]")
+    matches = [t for t in pendientes if t.id.startswith(task_id)]
+
+    if not matches:
+        console.print(f"\n  ❌ [red]No se encontró ninguna tarea con id:[/] [cyan]{task_id}[/]\n")
+    elif len(matches) > 1:
+        console.print(f"\n  ⚠️  [yellow]Varios resultados. Usa más caracteres del ID.[/]\n")
+    else:
+        task        = matches[0]
+        task.estado = "completada"
+        save_tasks(tasks, TASKS_PATH)
+        console.print(f"\n  ✅ [bold green]Completada:[/] [cyan]{task.titulo}[/]\n")
+
+    Prompt.ask("  [dim]Pulsa Enter para continuar[/]", default="")
+
+
 def mostrar_stats():
     clear()
     header()
@@ -129,7 +163,7 @@ def mostrar_stats():
     if data["total"] == 0:
         console.print("  [dim]No hay tareas todavía.[/]\n")
     else:
-        total      = data["total"]
+        total       = data["total"]
         completadas = data["completadas"]
         porcentaje  = int((completadas / total) * 100)
         barra       = "█" * (porcentaje // 5) + "░" * (20 - porcentaje // 5)
@@ -193,8 +227,10 @@ def main():
         elif opcion == "4":
             mostrar_tareas(filtro="completada")
         elif opcion == "5":
-            mostrar_stats()
+            completar_tarea()
         elif opcion == "6":
+            mostrar_stats()
+        elif opcion == "7":
             eliminar_tarea()
         elif opcion == "0":
             clear()
