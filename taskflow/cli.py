@@ -10,62 +10,109 @@ from taskflow.models import Task
 from taskflow.storage import load_tasks, save_tasks
 from taskflow.logic import filter_by_status, sort_by_priority, get_stats
 
-app = typer.Typer(
+# ── Constantes ────────────────────────────────────────────────────────────────
+
+RUTA_TAREAS = Path("tasks.json")
+
+COLORES_PRIORIDAD = {
+    1: "green",
+    2: "cyan",
+    3: "yellow",
+    4: "orange1",
+    5: "red",
+}
+
+ESTADO_COMPLETADA = "completada"
+ESTADO_PENDIENTE  = "pendiente"
+
+# ── App y consola ─────────────────────────────────────────────────────────────
+
+app     = typer.Typer(
     name="taskflow",
     help="✅ TaskFlow CLI — Gestor de tareas en consola",
     add_completion=False,
 )
-console = Console()
-
-TASKS_PATH = Path("tasks.json")
+consola = Console()
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# ── Helpers privados ──────────────────────────────────────────────────────────
 
-def _priority_color(prioridad: int) -> str:
-    """Devuelve un color Rich según la prioridad."""
-    colors = {1: "green", 2: "cyan", 3: "yellow", 4: "orange1", 5: "red"}
-    return colors.get(prioridad, "white")
-
-
-def _estado_style(estado: str) -> str:
-    """Devuelve un estilo Rich según el estado."""
-    return "strike dim" if estado == "completada" else "bold"
+def _color_segun_prioridad(prioridad: int) -> str:
+    """Devuelve el color Rich correspondiente a la prioridad dada."""
+    return COLORES_PRIORIDAD.get(prioridad, "white")
 
 
-def _build_table(tasks: list[Task]) -> Table:
-    """Construye la tabla Rich con la lista de tareas."""
-    table = Table(
+def _estilo_segun_estado(estado: str) -> str:
+    """Devuelve el estilo Rich correspondiente al estado de la tarea."""
+    return "strike dim" if estado == ESTADO_COMPLETADA else ""
+
+
+def _buscar_tarea_por_id(tareas: list[Task], id_parcial: str) -> Task | None:
+    """Busca una tarea cuyo ID empiece por id_parcial.
+
+    Args:
+        tareas:     lista de Task donde buscar.
+        id_parcial: primeros caracteres del ID de la tarea.
+
+    Returns:
+        La Task encontrada, o None si no hay exactamente una coincidencia.
+    """
+    coincidencias = [tarea for tarea in tareas if tarea.id.startswith(id_parcial)]
+
+    if not coincidencias:
+        consola.print(f"\n  ❌ [bold red]No se encontró ninguna tarea con id:[/] [cyan]{id_parcial}[/]\n")
+        return None
+
+    if len(coincidencias) > 1:
+        consola.print(f"\n  ⚠️  [yellow]Varios resultados para[/] [cyan]{id_parcial}[/]. Usa más caracteres del ID.\n")
+        return None
+
+    return coincidencias[0]
+
+
+def _construir_tabla_tareas(tareas: list[Task]) -> Table:
+    """Construye y devuelve una tabla Rich con la lista de tareas.
+
+    Args:
+        tareas: lista de Task a mostrar.
+
+    Returns:
+        Tabla Rich lista para imprimir.
+    """
+    tabla = Table(
         box=box.ROUNDED,
         show_header=True,
         header_style="bold bright_white on grey23",
         expand=True,
     )
-    table.add_column("#",           style="dim",          width=4,  justify="right")
-    table.add_column("ID",          style="dim cyan",     width=8)
-    table.add_column("Título",      min_width=20)
-    table.add_column("Prioridad",   justify="center",     width=10)
-    table.add_column("Estado",      justify="center",     width=12)
-    table.add_column("Creada",      justify="center",     width=20)
+    tabla.add_column("#",          style="dim",      width=4,  justify="right")
+    tabla.add_column("ID",         style="dim cyan", width=8)
+    tabla.add_column("Título",     min_width=20)
+    tabla.add_column("Prioridad",  justify="center", width=10)
+    tabla.add_column("Estado",     justify="center", width=12)
+    tabla.add_column("Creada",     justify="center", width=20)
 
-    for i, task in enumerate(tasks, start=1):
-        color = _priority_color(task.prioridad)
-        style = _estado_style(task.estado)
+    for numero, tarea in enumerate(tareas, start=1):
+        color_prioridad = _color_segun_prioridad(tarea.prioridad)
+        estilo_titulo   = _estilo_segun_estado(tarea.estado)
 
-        priority_text = Text(f"{'★' * task.prioridad}", style=color)
-        estado_text   = Text(task.estado, style="green" if task.estado == "completada" else "yellow")
-        titulo_text   = Text(task.titulo, style=style)
+        texto_prioridad = Text("★" * tarea.prioridad, style=color_prioridad)
+        texto_estado    = Text(
+            tarea.estado,
+            style="green" if tarea.estado == ESTADO_COMPLETADA else "yellow",
+        )
+        texto_titulo = Text(tarea.titulo, style=estilo_titulo)
 
-        table.add_row(
-            str(i),
-            task.id[:8],
-            titulo_text,
-            priority_text,
-            estado_text,
-            task.fecha_creacion[:10],
+        tabla.add_row(
+            str(numero),
+            tarea.id[:8],
+            texto_titulo,
+            texto_prioridad,
+            texto_estado,
+            tarea.fecha_creacion[:10],
         )
 
-    return table
+    return tabla
 
 
 # ── Comandos ──────────────────────────────────────────────────────────────────
@@ -73,117 +120,120 @@ def _build_table(tasks: list[Task]) -> Table:
 @app.command()
 def add(
     titulo: str = typer.Argument(..., help="Título de la nueva tarea"),
-    prioridad: int = typer.Option(3, "--prioridad", "-p", min=1, max=5, help="Prioridad del 1 (baja) al 5 (crítica)"),
+    prioridad: int = typer.Option(
+        3, "--prioridad", "-p",
+        min=1, max=5,
+        help="Prioridad del 1 (baja) al 5 (crítica)",
+    ),
 ):
-    """Añade una nueva tarea."""
+    """Añade una nueva tarea al gestor."""
     try:
-        tasks = load_tasks(TASKS_PATH)
-        task  = Task(titulo=titulo, prioridad=prioridad)
-        tasks.append(task)
-        save_tasks(tasks, TASKS_PATH)
-        console.print(f"\n  ✅ [bold green]Tarea creada:[/] [cyan]{task.titulo}[/] "
-                      f"· prioridad [bold]{prioridad}[/] · id [dim]{task.id[:8]}[/]\n")
-    except ValueError as e:
-        console.print(f"\n  ❌ [bold red]Error:[/] {e}\n")
+        tareas_actuales = load_tasks(RUTA_TAREAS)
+        nueva_tarea     = Task(titulo=titulo, prioridad=prioridad)
+
+        tareas_actuales.append(nueva_tarea)
+        save_tasks(tareas_actuales, RUTA_TAREAS)
+
+        consola.print(
+            f"\n  ✅ [bold green]Tarea creada:[/] [cyan]{nueva_tarea.titulo}[/]"
+            f" · prioridad [bold]{prioridad}[/]"
+            f" · id [dim]{nueva_tarea.id[:8]}[/]\n"
+        )
+    except ValueError as error:
+        consola.print(f"\n  ❌ [bold red]Error:[/] {error}\n")
         raise typer.Exit(1)
 
 
 @app.command(name="list")
-def list_tasks(
-    estado: str = typer.Option(None, "--estado", "-e", help="Filtrar por estado: pendiente | completada"),
-    orden: bool = typer.Option(False, "--orden", "-o", help="Ordenar de mayor a menor prioridad"),
+def listar_tareas(
+    estado: str = typer.Option(
+        None, "--estado", "-e",
+        help="Filtrar por estado: pendiente | completada",
+    ),
+    orden_descendente: bool = typer.Option(
+        False, "--orden", "-o",
+        help="Ordenar de mayor a menor prioridad",
+    ),
 ):
-    """Lista todas las tareas."""
-    tasks = load_tasks(TASKS_PATH)
+    """Lista todas las tareas, con filtros opcionales."""
+    tareas = load_tasks(RUTA_TAREAS)
 
-    if not tasks:
-        console.print("\n  [dim]No hay tareas todavía. Usa [bold]add[/] para crear una.[/]\n")
+    if not tareas:
+        consola.print("\n  [dim]No hay tareas todavía. Usa [bold]add[/] para crear una.[/]\n")
         return
 
     if estado:
-        tasks = filter_by_status(tasks, estado)
-    if orden:
-        tasks = sort_by_priority(tasks, reverse=True)
+        tareas = filter_by_status(tareas, estado)
 
-    console.print()
-    console.print(_build_table(tasks))
-    console.print(f"  [dim]{len(tasks)} tarea(s) mostrada(s)[/]\n")
+    if orden_descendente:
+        tareas = sort_by_priority(tareas, reverse=True)
+
+    consola.print()
+    consola.print(_construir_tabla_tareas(tareas))
+    consola.print(f"  [dim]{len(tareas)} tarea(s) mostrada(s)[/]\n")
 
 
 @app.command()
 def done(
-    task_id: str = typer.Argument(..., help="ID (o primeros caracteres) de la tarea a completar"),
+    id_parcial: str = typer.Argument(..., help="ID (o primeros caracteres) de la tarea a completar"),
 ):
     """Marca una tarea como completada."""
-    tasks = load_tasks(TASKS_PATH)
-    matches = [t for t in tasks if t.id.startswith(task_id)]
+    tareas = load_tasks(RUTA_TAREAS)
+    tarea  = _buscar_tarea_por_id(tareas, id_parcial)
 
-    if not matches:
-        console.print(f"\n  ❌ [bold red]No se encontró ninguna tarea con id:[/] [cyan]{task_id}[/]\n")
+    if not tarea:
         raise typer.Exit(1)
 
-    if len(matches) > 1:
-        console.print(f"\n  ⚠️  [yellow]Varios resultados para[/] [cyan]{task_id}[/]. Usa más caracteres del ID.\n")
-        raise typer.Exit(1)
-
-    task = matches[0]
-    task.estado = "completada"
-    save_tasks(tasks, TASKS_PATH)
-    console.print(f"\n  ✅ [bold green]Completada:[/] [cyan]{task.titulo}[/]\n")
+    tarea.estado = ESTADO_COMPLETADA
+    save_tasks(tareas, RUTA_TAREAS)
+    consola.print(f"\n  ✅ [bold green]Completada:[/] [cyan]{tarea.titulo}[/]\n")
 
 
 @app.command()
 def delete(
-    task_id: str = typer.Argument(..., help="ID (o primeros caracteres) de la tarea a eliminar"),
-    force: bool = typer.Option(False, "--force", "-f", help="Eliminar sin confirmación"),
+    id_parcial: str = typer.Argument(..., help="ID (o primeros caracteres) de la tarea a eliminar"),
+    forzar: bool = typer.Option(False, "--force", "-f", help="Eliminar sin confirmación"),
 ):
-    """Elimina una tarea."""
-    tasks = load_tasks(TASKS_PATH)
-    matches = [t for t in tasks if t.id.startswith(task_id)]
+    """Elimina una tarea del gestor."""
+    tareas = load_tasks(RUTA_TAREAS)
+    tarea  = _buscar_tarea_por_id(tareas, id_parcial)
 
-    if not matches:
-        console.print(f"\n  ❌ [bold red]No se encontró ninguna tarea con id:[/] [cyan]{task_id}[/]\n")
+    if not tarea:
         raise typer.Exit(1)
 
-    if len(matches) > 1:
-        console.print(f"\n  ⚠️  [yellow]Varios resultados para[/] [cyan]{task_id}[/]. Usa más caracteres del ID.\n")
-        raise typer.Exit(1)
-
-    task = matches[0]
-
-    if not force:
-        confirm = typer.confirm(f"  ¿Eliminar '{task.titulo}'?")
-        if not confirm:
-            console.print("  [dim]Cancelado.[/]\n")
+    if not forzar:
+        confirmado = typer.confirm(f"  ¿Eliminar '{tarea.titulo}'?")
+        if not confirmado:
+            consola.print("  [dim]Cancelado.[/]\n")
             return
 
-    tasks = [t for t in tasks if t.id != task.id]
-    save_tasks(tasks, TASKS_PATH)
-    console.print(f"\n  🗑️  [bold red]Eliminada:[/] [cyan]{task.titulo}[/]\n")
+    tareas_sin_eliminada = [t for t in tareas if t.id != tarea.id]
+    save_tasks(tareas_sin_eliminada, RUTA_TAREAS)
+    consola.print(f"\n  🗑️  [bold red]Eliminada:[/] [cyan]{tarea.titulo}[/]\n")
 
 
 @app.command()
 def stats():
-    """Muestra estadísticas de las tareas."""
-    tasks = load_tasks(TASKS_PATH)
-    data  = get_stats(tasks)
+    """Muestra estadísticas generales de las tareas."""
+    tareas      = load_tasks(RUTA_TAREAS)
+    estadisticas = get_stats(tareas)
 
-    if data["total"] == 0:
-        console.print("\n  [dim]No hay tareas todavía.[/]\n")
+    if estadisticas["total"] == 0:
+        consola.print("\n  [dim]No hay tareas todavía.[/]\n")
         return
 
-    completadas = data["completadas"]
-    total       = data["total"]
-    porcentaje  = int((completadas / total) * 100)
-    barra       = "█" * (porcentaje // 5) + "░" * (20 - porcentaje // 5)
+    total_tareas       = estadisticas["total"]
+    tareas_completadas = estadisticas["completadas"]
+    porcentaje_avance  = int((tareas_completadas / total_tareas) * 100)
+    barra_progreso     = "█" * (porcentaje_avance // 5) + "░" * (20 - porcentaje_avance // 5)
 
-    console.print()
-    console.print("  [bold bright_white]📊 Estadísticas[/]\n")
-    console.print(f"  Total        [cyan]{total}[/]")
-    console.print(f"  Pendientes   [yellow]{data['pendientes']}[/]")
-    console.print(f"  Completadas  [green]{completadas}[/]")
-    console.print(f"  Prioridad media  [bold]{data['prioridad_media']}[/]")
-    console.print(f"\n  Progreso  [green]{barra}[/] [dim]{porcentaje}%[/]\n")
+    consola.print()
+    consola.print("  [bold bright_white]📊 Estadísticas[/]\n")
+    consola.print(f"  Total            [cyan]{total_tareas}[/]")
+    consola.print(f"  Pendientes       [yellow]{estadisticas['pendientes']}[/]")
+    consola.print(f"  Completadas      [green]{tareas_completadas}[/]")
+    consola.print(f"  Prioridad media  [bold]{estadisticas['prioridad_media']}[/]")
+    consola.print(f"\n  Progreso  [green]{barra_progreso}[/] [dim]{porcentaje_avance}%[/]\n")
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────

@@ -17,7 +17,7 @@
     "id": "17d82b2e-4ede-4eca-8a10-766341f0d890",
     "titulo": "Tarea 3",
     "prioridad": 5,
-    "estado": "pendiente",
+    "estado": "completada",
     "fecha_creacion": "2026-03-16T12:28:25.239795"
   },
   {
@@ -33,5 +33,19 @@
     "prioridad": 2,
     "estado": "completada",
     "fecha_creacion": "2026-03-16T12:49:23.459152"
+  },
+  {
+    "id": "41f35a62-fdb9-442c-a244-ac2e58acfb3f",
+    "titulo": "andres revisa todo",
+    "prioridad": 5,
+    "estado": "completada",
+    "fecha_creacion": "2026-03-16T13:12:24.135818"
+  },
+  {
+    "id": "0def43e1-7af8-4b23-8e50-4bbc96ec336c",
+    "titulo": "angel refactorizo el codigo",
+    "prioridad": 4,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-16T13:19:38.365805"
   }
 ]

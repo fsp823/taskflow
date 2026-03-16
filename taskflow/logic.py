@@ -1,60 +1,71 @@
 # taskflow/logic.py
 from taskflow.models import Task
 
+# ── Constantes ────────────────────────────────────────────────────────────────
 
-def filter_by_status(tasks: list[Task], status: str) -> list[Task]:
+ESTADO_PENDIENTE  = "pendiente"
+ESTADO_COMPLETADA = "completada"
+
+
+# ── Funciones públicas ────────────────────────────────────────────────────────
+
+def filter_by_status(lista_tareas: list[Task], estado_buscado: str) -> list[Task]:
     """Filtra tareas por estado.
 
     Args:
-        tasks:  lista de Task a filtrar.
-        status: estado por el que filtrar, p.ej. 'pendiente' o 'completada'.
+        lista_tareas:   lista de Task a filtrar.
+        estado_buscado: estado por el que filtrar, p.ej. 'pendiente' o 'completada'.
 
     Returns:
-        Lista de Task cuyo estado coincide con status. Vacía si no hay coincidencias.
+        Lista de Task cuyo estado coincide con estado_buscado.
+        Vacía si no hay coincidencias.
 
     Example:
-        >>> pendientes = filter_by_status(tasks, "pendiente")
+        >>> pendientes = filter_by_status(tareas, "pendiente")
     """
-    return [task for task in tasks if task.estado == status]
+    return [tarea for tarea in lista_tareas if tarea.estado == estado_buscado]
 
 
-def sort_by_priority(tasks: list[Task], reverse: bool = False) -> list[Task]:
-    """Ordena tareas por prioridad.
+def sort_by_priority(lista_tareas: list[Task], reverse: bool = False) -> list[Task]:
+    """Ordena tareas por prioridad sin modificar la lista original.
 
-    Usa el algoritmo Timsort de Python (híbrido entre merge sort e insertion sort).
-    Complejidad temporal: O(n log n). Complejidad espacial: O(n).
+    Usa Timsort, el algoritmo nativo de Python (híbrido entre merge sort
+    e insertion sort). Complejidad temporal: O(n log n). Espacial: O(n).
 
     Args:
-        tasks:   lista de Task a ordenar.
-        reverse: si True, ordena de mayor a menor prioridad. Por defecto False (menor a mayor).
+        lista_tareas: lista de Task a ordenar.
+        reverse:      si True, ordena de mayor a menor prioridad (5 → 1).
+                      Por defecto False (menor a mayor, 1 → 5).
 
     Returns:
         Nueva lista de Task ordenada. La lista original no se modifica.
 
     Example:
-        >>> ordenadas = sort_by_priority(tasks, reverse=True)  # 5 → 1
+        >>> urgentes_primero = sort_by_priority(tareas, reverse=True)
     """
-    return sorted(tasks, key=lambda task: task.prioridad, reverse=reverse)
+    return sorted(lista_tareas, key=lambda tarea: tarea.prioridad, reverse=reverse)
 
 
-def get_stats(tasks: list[Task]) -> dict:
-    """Calcula estadísticas sobre la lista de tareas.
+def get_stats(lista_tareas: list[Task]) -> dict:
+    """Calcula estadísticas generales sobre una lista de tareas.
+
+    Implementada sin IA — lógica propia del equipo.
 
     Args:
-        tasks: lista de Task a analizar.
+        lista_tareas: lista de Task a analizar.
 
     Returns:
         Diccionario con las claves:
-            - total          (int):   número total de tareas.
-            - pendientes     (int):   tareas con estado 'pendiente'.
-            - completadas    (int):   tareas con estado 'completada'.
-            - prioridad_media(float): media de prioridad, 0.0 si no hay tareas.
+            - total           (int):   número total de tareas.
+            - pendientes      (int):   tareas con estado 'pendiente'.
+            - completadas     (int):   tareas con estado 'completada'.
+            - prioridad_media (float): media de prioridad. 0.0 si no hay tareas.
 
     Example:
         >>> get_stats([])
         {'total': 0, 'pendientes': 0, 'completadas': 0, 'prioridad_media': 0.0}
     """
-    if not tasks:
+    if not lista_tareas:
         return {
             "total": 0,
             "pendientes": 0,
@@ -62,14 +73,14 @@ def get_stats(tasks: list[Task]) -> dict:
             "prioridad_media": 0.0,
         }
 
-    total = len(tasks)
-    pendientes = sum(1 for task in tasks if task.estado == "pendiente")
-    completadas = sum(1 for task in tasks if task.estado == "completada")
-    prioridad_media = round(sum(task.prioridad for task in tasks) / total, 2)
+    total_tareas      = len(lista_tareas)
+    cantidad_pendientes  = sum(1 for tarea in lista_tareas if tarea.estado == ESTADO_PENDIENTE)
+    cantidad_completadas = sum(1 for tarea in lista_tareas if tarea.estado == ESTADO_COMPLETADA)
+    media_prioridad      = round(sum(tarea.prioridad for tarea in lista_tareas) / total_tareas, 2)
 
     return {
-        "total": total,
-        "pendientes": pendientes,
-        "completadas": completadas,
-        "prioridad_media": prioridad_media,
+        "total":           total_tareas,
+        "pendientes":      cantidad_pendientes,
+        "completadas":     cantidad_completadas,
+        "prioridad_media": media_prioridad,
     }
