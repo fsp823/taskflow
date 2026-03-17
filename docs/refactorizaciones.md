@@ -1,4 +1,4 @@
-# 📋 Docs_angel.md — Documentación de contribución individual
+# 📋 Docs_angel.md — Documentación de la refactorizacion
 ### Proyecto: TaskFlow CLI · Módulo 2 · Dicampus
 ### Autor: Ángel · Rol: Dev de Lógica
 
