@@ -11,3 +11,9 @@ Ctrl click to launch VS Code Native REPL"
 Y me dio una solucion que no es la que buscaba, entonces media ante ayuda de Edu, dandole este promt: "pero en el play del vs code no funciona tengo que improtar el import os y import sys"
 >>>Y a traves de ese promt me dio la solucion.
 Pero la mejor solucion al problema es usar este comando: "python -m tests.test_logic" para la ejecucion del codigo
+Pero como al correr los test, no aparecia que salia ningun test realizado con exito, tuve que decirselo a la IA, y despues de mandarle todos los errores que me daba, me dio otro codigo, en el que al ejecutar este comando: "python -m unittest tests.test_logic -v " 
+Se pueden realizar los test con exito.
+
+
+Para el archivo test_models.py, le dije que me hiciese lo mismo para el codigo de models.py .
+Tuve que ejecutarlo con python -m tests.test_models
