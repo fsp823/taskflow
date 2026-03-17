@@ -1,31 +1,115 @@
-Le di a la IA, el archivo de logic.py, despues a traves de este promt: "ahora necesito que me crees un archivo llamado test_logic.py en el que testes todo el codigo, con test, quiero que el codigo sea sencillo y simple de entender para cualquier persona con nociones basicas de programacion, pero que al realizar los test, no haya ningun fallo". 
-Y me dio un codigo generado de test para logic, el cual me daba errores, y necesite darle el error: "PS C:\Users\IA\Desktop\Curso\taskflow> & C:\Users\IA\AppData\Local\Programs\Python\Python314\python.exe c:/Users/IA/Desktop/Curso/taskflow/tests/test_logic.py
-Traceback (most recent call last):
-  File "c:\Users\IA\Desktop\Curso\taskflow\tests\test_logic.py", line 2, in <module>
-    from taskflow.logic import filter_by_status, sort_by_priority, get_stats
+📘 TaskFlow – Documentación del proceso de creación y ejecución de tests
+Este documento describe el proceso completo seguido para generar, corregir y ejecutar los tests unitarios del proyecto TaskFlow, incluyendo los problemas encontrados, las soluciones aplicadas y las decisiones finales que permitieron que todo funcionara correctamente.
+
+📂 Estructura del proyecto
+Código
+taskflow/
+│
+├── taskflow/
+│   ├── logic.py
+│   ├── models.py
+│   ├── storage.py
+│   ├── __init__.py
+│
+└── tests/
+    ├── test_logic.py
+    ├── test_models.py
+    ├── test_storage.py
+    ├── __init__.py
+🧪 1. Creación del archivo test_logic.py
+El proceso comenzó proporcionando a la IA el archivo logic.py y pidiéndole:
+
+“Ahora necesito que me crees un archivo llamado test_logic.py en el que testes todo el código, con test. Quiero que el código sea sencillo y simple de entender para cualquier persona con nociones básicas de programación, pero que al realizar los test no haya ningún fallo.”
+
+La IA generó un archivo de test, pero al ejecutarlo aparecieron errores como:
+
+Código
 ModuleNotFoundError: No module named 'taskflow'
-PS C:\Users\IA\Desktop\Curso\taskflow> python - m test_logic.py
-Python 3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license" for more information.
-Ctrl click to launch VS Code Native REPL"
-Y me dio una solucion que no es la que buscaba, entonces media ante ayuda de Edu, dandole este promt: "pero en el play del vs code no funciona tengo que improtar el import os y import sys"
->>>Y a traves de ese promt me dio la solucion.
-Pero la mejor solucion al problema es usar este comando: "python -m tests.test_logic" para la ejecucion del codigo
-Pero como al correr los test, no aparecia que salia ningun test realizado con exito, tuve que decirselo a la IA, y despues de mandarle todos los errores que me daba, me dio otro codigo, en el que al ejecutar este comando: "python -m unittest tests.test_logic -v " 
-Se pueden realizar los test con exito.
+Incluso al intentar:
 
+Código
+python -m test_logic.py
+seguían apareciendo problemas.
 
-Para el archivo test_models.py, le dije que me hiciese lo mismo para el codigo de models.py .
-Tuve que ejecutarlo con "python -m tests.test_models"
+✔️ Solución parcial
+Tras pedir ayuda adicional, se añadió:
 
-Para el archivo test_storage.py, le di el codigo de storage y le pedi que me realizase lo mismo, los test unitarios, que el codigo sea sencillo de entender y me dio el archivo, que al ejecutar: " python tests/test_storage.py " los test se realizan y pasan con exito
+python
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+Esto permitió que el archivo pudiera ejecutarse desde VS Code con el botón Run.
 
-Para archivo __init__.py, le pregunte a la IA si le tenia que añadir algo, me dijo esto: # Este archivo convierte la carpeta 'tests' en un paquete Python.
+✔️ Solución definitiva
+La forma correcta de ejecutar los tests fue:
+
+Código
+python -m tests.test_logic
+Sin embargo, este comando no mostraba ningún resultado, aunque los tests sí se estaban ejecutando.
+
+Tras informar a la IA y mostrarle los errores, se generó una versión corregida del archivo, y finalmente los tests pudieron ejecutarse correctamente con:
+
+Código
+python -m unittest tests.test_logic -v
+🧪 2. Creación del archivo test_models.py
+Se repitió el proceso con el archivo models.py.
+
+La IA generó los tests y estos se ejecutaron correctamente con:
+
+Código
+python -m tests.test_models
+🧪 3. Creación del archivo test_storage.py
+Se proporcionó el archivo storage.py y se pidió a la IA que generara tests sencillos y funcionales.
+
+El archivo generado funcionó correctamente al ejecutarlo directamente:
+
+Código
+python tests/test_storage.py
+📦 4. Archivo __init__.py dentro de tests/
+Se consultó a la IA si era necesario añadir contenido al archivo tests/__init__.py.
+La IA sugirió incluir comentarios explicativos como:
+
+python
+# Este archivo convierte la carpeta 'tests' en un paquete Python.
 # Gracias a esto, los tests pueden ejecutarse con:
 #   python -m tests.test_logic
 #   python -m tests.test_models
 #   python -m unittest tests.test_storage -v
 #
 # No es necesario añadir código adicional.
+❗ Problema
+Al añadir ese contenido, algunos comandos de ejecución comenzaron a fallar.
 
-Pero si yo lo añado al init, al ejecutar los comandos de realizacion de los test, me daban errores, a si que decidi dejarlo vacio, asi funciona todo correctamente
+✔️ Decisión final
+La solución más estable fue:
+
+👉 Dejar tests/__init__.py completamente vacío
+Con el archivo vacío, todos los comandos funcionan correctamente:
+
+Código
+python -m unittest tests.test_logic -v
+python -m tests.test_models
+python tests/test_storage.py
+✅ Conclusiones finales
+Los tests funcionan correctamente siempre que se ejecuten como módulos o mediante unittest.
+
+La forma más fiable de ejecutar los tests es:
+
+Código
+python -m unittest tests.test_logic -v
+El archivo tests/__init__.py debe estar vacío para evitar conflictos.
+
+Cada archivo de test funciona con su propio comando:
+
+test_logic.py → python -m unittest tests.test_logic -v
+
+test_models.py → python -m tests.test_models
+
+test_storage.py → python tests/test_storage.py
+
+📌 Estado final del proyecto
+✔️ Tests creados
+✔️ Tests ejecutados correctamente
+✔️ Estructura estable
+✔️ Sin errores de importación
+✔️ Documentación completada
