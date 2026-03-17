@@ -111,6 +111,7 @@ pytest -v
 | Ernesto | [@ernesto](https://github.com/ernestoSotero) |
 | Angel | [@Angel](https://github.com/Kindred-98) |
 | Fernando | [@Fernando](https://github.com/FSP823) |
+| Alberto | [@Alberto](https://github.com/RFireforge) |
 
 ---
 
