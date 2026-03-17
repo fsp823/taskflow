@@ -17,3 +17,5 @@ Se pueden realizar los test con exito.
 
 Para el archivo test_models.py, le dije que me hiciese lo mismo para el codigo de models.py .
 Tuve que ejecutarlo con python -m tests.test_models
+
+Para el archivo test_storage.py, le di el codigo de storage y le pedi que me realizase lo mismo, los test unitarios, que el codigo sea sencillo de entender y me dio el archivo, que al ejecutar: " python tests/test_storage.py " los test se realizan y pasan con exito
