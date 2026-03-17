@@ -1,0 +1,13 @@
+Le di a la IA, el archivo de logic.py, despues a traves de este promt: "ahora necesito que me crees un archivo llamado test_logic.py en el que testes todo el codigo, con test, quiero que el codigo sea sencillo y simple de entender para cualquier persona con nociones basicas de programacion, pero que al realizar los test, no haya ningun fallo". 
+Y me dio un codigo generado de test para logic, el cual me daba errores, y necesite darle el error: "PS C:\Users\IA\Desktop\Curso\taskflow> & C:\Users\IA\AppData\Local\Programs\Python\Python314\python.exe c:/Users/IA/Desktop/Curso/taskflow/tests/test_logic.py
+Traceback (most recent call last):
+  File "c:\Users\IA\Desktop\Curso\taskflow\tests\test_logic.py", line 2, in <module>
+    from taskflow.logic import filter_by_status, sort_by_priority, get_stats
+ModuleNotFoundError: No module named 'taskflow'
+PS C:\Users\IA\Desktop\Curso\taskflow> python - m test_logic.py
+Python 3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+Ctrl click to launch VS Code Native REPL"
+Y me dio una solucion que no es la que buscaba, entonces media ante ayuda de Edu, dandole este promt: "pero en el play del vs code no funciona tengo que improtar el import os y import sys"
+>>>Y a traves de ese promt me dio la solucion.
+Pero la mejor solucion al problema es usar este comando: "python -m tests.test_logic" para la ejecucion del codigo
