@@ -16,6 +16,16 @@ Se pueden realizar los test con exito.
 
 
 Para el archivo test_models.py, le dije que me hiciese lo mismo para el codigo de models.py .
-Tuve que ejecutarlo con python -m tests.test_models
+Tuve que ejecutarlo con "python -m tests.test_models"
 
 Para el archivo test_storage.py, le di el codigo de storage y le pedi que me realizase lo mismo, los test unitarios, que el codigo sea sencillo de entender y me dio el archivo, que al ejecutar: " python tests/test_storage.py " los test se realizan y pasan con exito
+
+El archivo __init__.py, le pregunte a la IA si le tenia que añadir algo, me dijo esto: # Este archivo convierte la carpeta 'tests' en un paquete Python.
+# Gracias a esto, los tests pueden ejecutarse con:
+#   python -m tests.test_logic
+#   python -m tests.test_models
+#   python -m unittest tests.test_storage -v
+#
+# No es necesario añadir código adicional.
+
+Pero si yo lo añado al init, al ejecutar los comandos de realizacion de los test, me daban errores, a si que decidi dejarlo vacio, asi funciona todo correctamente
