@@ -52,7 +52,7 @@ python -m taskflow.cli done <task_id>
 
 | Argumento | Tipo | Descripción |
 |-----------|------|-------------|
-| `task_id` | string | ID completo o primeros caracteres de la tarea |
+| `id_parcial` | string | ID completo o primeros caracteres de la tarea |
 
 **Ejemplo:**
 ```bash
@@ -68,7 +68,7 @@ python -m taskflow.cli delete <task_id> [--force]
 
 | Argumento | Tipo | Descripción |
 |-----------|------|-------------|
-| `task_id` | string | ID completo o primeros caracteres de la tarea |
+| `id_parcial` | string | ID completo o primeros caracteres de la tarea |
 | `--force` / `-f` | flag | Elimina sin pedir confirmación |
 
 **Ejemplo:**
@@ -101,3 +101,22 @@ Muestra un resumen con:
 | `3` | 🟡 Amarillo | Media *(por defecto)* |
 | `4` | 🟠 Naranja | Alta |
 | `5` | 🔴 Rojo | Crítica |
+
+
+# Ejecutar el CLI de `taskflow` sin errores de importación
+
+Para poder ejecutar `taskflow/cli.py` desde VS Code, desde la terminal o usando  
+`python -m taskflow.cli`, es necesario que Python pueda encontrar el paquete `taskflow`.
+
+## 🔧 Ajuste temporal del `sys.path`
+
+Si quieres ejecutar el archivo directamente (sin instalar el paquete), puedes añadir
+el directorio raíz del proyecto al `sys.path`:
+
+```python
+import os
+import sys
+
+# Sube un nivel desde taskflow/cli.py → taskflow/
+# Sube otro nivel → carpeta raíz del proyecto
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
