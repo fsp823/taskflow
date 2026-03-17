@@ -47,3 +47,4 @@ Para mantener un historial claro de la evolución del proyecto mediante commits 
 | Generación del primer commit  | ✅           | La IA generó todos los archivos necesarios.                             |
 | Creación del README           | ✅           | Se generó un README completo y funcional.                               |
 | Ajustes manuales posteriores  | ❌           | Realizados manualmente: `.gitignore`, `__init__.py`, pruebas y ajustes. |
+--------------------------------------------------------------------------------------------------------------------------
