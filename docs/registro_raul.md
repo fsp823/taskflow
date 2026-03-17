@@ -2,20 +2,43 @@
 Este documento describe el proceso completo seguido para generar, corregir y ejecutar los tests unitarios del proyecto TaskFlow, incluyendo los problemas encontrados, las soluciones aplicadas y las decisiones finales que permitieron que todo funcionara correctamente.
 
 📂 Estructura del proyecto
-Código
-taskflow/
+TASKFLOW/
+│
+├── .qodo
+├── .gitignore
+├── main.py
+├── README.md
+├── requirements.txt
+├── settings.json
+├── tasks.json
+│
+├── docs/
+│   ├── cli.md
+│   ├── Docs_De_Todo_El_Proyecto.md
+│   ├── logic.md
+│   ├── models.md
+│   ├── problemas.md
+│   ├── refactorizaciones.md
+│   ├── registro_angel.md
+│   ├── registro_ernesto.md
+│   ├── registro_fernando.md
+│   ├── registro_raul.md
 │
 ├── taskflow/
+│   ├── __init__.py
+│   ├── cli.py
 │   ├── logic.py
 │   ├── models.py
 │   ├── storage.py
-│   ├── __init__.py
+│   └── __pycache__/
 │
 └── tests/
+    ├── __init__.py
     ├── test_logic.py
     ├── test_models.py
     ├── test_storage.py
-    ├── __init__.py
+    └── __pycache__/
+
 🧪 1. Creación del archivo test_logic.py
 El proceso comenzó proporcionando a la IA el archivo logic.py y pidiéndole:
 
