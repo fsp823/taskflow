@@ -28,13 +28,6 @@
     "fecha_creacion": "2026-03-16T12:45:14.772701"
   },
   {
-    "id": "c5aca790-16f4-47e6-a765-0feb2770857d",
-    "titulo": "andres es ladilloso",
-    "prioridad": 2,
-    "estado": "completada",
-    "fecha_creacion": "2026-03-16T12:49:23.459152"
-  },
-  {
     "id": "41f35a62-fdb9-442c-a244-ac2e58acfb3f",
     "titulo": "andres revisa todo",
     "prioridad": 5,
@@ -47,5 +40,103 @@
     "prioridad": 4,
     "estado": "pendiente",
     "fecha_creacion": "2026-03-16T13:19:38.365805"
+  },
+  {
+    "id": "d835b2c1-ed48-4415-92b1-3fb77503f4b9",
+    "titulo": "ANGEL ESTA REVISANDO SI FUNCIONA",
+    "prioridad": 2,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:24:10.204449"
+  },
+  {
+    "id": "b2bcebfa-db64-4e26-8692-23cfc030fadb",
+    "titulo": "todos en el equipo hicimos nuestra parte",
+    "prioridad": 3,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:37:19.594510"
+  },
+  {
+    "id": "e330b6db-a5ca-4207-87c7-a01d70626132",
+    "titulo": "fernando reviso todo exhautivamente, todo lo de el como lo de los demas y eso esta muy bien.",
+    "prioridad": 5,
+    "estado": "completada",
+    "fecha_creacion": "2026-03-17T10:37:53.458364"
+  },
+  {
+    "id": "631ab52a-c54f-4ac2-9e3e-586367ef57c6",
+    "titulo": "Raul hizo los tests",
+    "prioridad": 5,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:38:07.978404"
+  },
+  {
+    "id": "88701c8d-2f0b-404c-a886-44f2aa336997",
+    "titulo": "Angel hizo la logica",
+    "prioridad": 3,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:38:19.346053"
+  },
+  {
+    "id": "b17d81f2-08d1-45f9-8adb-c89be48bee97",
+    "titulo": "Ernesto documentacion",
+    "prioridad": 5,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:38:33.122246"
+  },
+  {
+    "id": "e0566db4-a26f-4a90-9f61-dedf5b8bf494",
+    "titulo": "Hoy juega el madrid contra el city",
+    "prioridad": 1,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:39:05.578123"
+  },
+  {
+    "id": "a79f1c59-bf23-4968-a68f-08138b59a4ca",
+    "titulo": "python es fantastico",
+    "prioridad": 4,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:39:42.042053"
+  },
+  {
+    "id": "1f77171e-d101-4df9-91ca-3fd0620d9d21",
+    "titulo": "python y java son calidad",
+    "prioridad": 2,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:39:59.114318"
+  },
+  {
+    "id": "317a7e2a-8835-410f-a9df-901be2f090f8",
+    "titulo": "venezuela le gano a italia, y me quede dormdido a las 4am con el telefono en la mano y sin poner alarma por eso eh llegado tarde.",
+    "prioridad": 3,
+    "estado": "completada",
+    "fecha_creacion": "2026-03-17T10:40:35.809692"
+  },
+  {
+    "id": "7d067310-6515-44a0-ae0d-013807e28b00",
+    "titulo": "venezuela tiene mucho power en los batrs",
+    "prioridad": 1,
+    "estado": "completada",
+    "fecha_creacion": "2026-03-17T10:41:03.113893"
+  },
+  {
+    "id": "37401d7a-89a9-4d68-9955-aac882912c01",
+    "titulo": "el lanzador de italia tuvo el control hasta el 7innings.",
+    "prioridad": 1,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-17T10:42:44.193575"
+  },
+  {
+    "id": "39c8eed1-2d1a-4678-a5d3-f4c1c0a57783",
+    "titulo": "Raul tu cafe bro, si eso no podemos continuar trabajando.",
+    "prioridad": 5,
+    "estado": "completada",
+    "fecha_creacion": "2026-03-17T10:43:32.265906"
+  },
+  {
+    "id": "869fff78-c3ed-402b-a3d4-7070419dc629",
+    "titulo": "angel tiene hambre siempre",
+    "prioridad": 1,
+    "estado": "completada",
+    "fecha_creacion": "2026-03-17T10:43:44.721303"
   }
 ]
