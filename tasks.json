@@ -138,5 +138,12 @@
     "prioridad": 1,
     "estado": "completada",
     "fecha_creacion": "2026-03-17T10:43:44.721303"
+  },
+  {
+    "id": "416aa97a-ba4c-4959-b3f5-4817eb5e7537",
+    "titulo": "Angel esta en casa",
+    "prioridad": 2,
+    "estado": "pendiente",
+    "fecha_creacion": "2026-03-21T11:15:51.552409"
   }
 ]
