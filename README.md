@@ -47,7 +47,7 @@ taskflow/
 
 **1. Clona el repositorio:**
 ```bash
-git clone https://github.com/tuusuario/taskflow.git
+git clone https://github.com/fsp823/taskflow.git
 cd taskflow
 ```
 
